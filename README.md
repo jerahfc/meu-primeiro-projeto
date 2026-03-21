@@ -2,6 +2,8 @@
 
 Este é o meu primeiro repositório criado enquanto aprendo programação e controle de versão!
 
+This is my first repository, created while I'm learning programming and version control!
+
 ## 🧪 Tecnologias Utilizadas
 * **Python**: Linguagem principal.
 * **Git & GitHub**: Para versionamento e hospedagem do código.
