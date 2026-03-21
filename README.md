@@ -11,4 +11,5 @@ Este é o meu primeiro repositório criado enquanto aprendo programação e cont
 Atualmente, ele contém um script simples em Python que exibe uma mensagem de boas-vindas no terminal.
 
 ---
-*Professor de Filosofia explorando o mundo da tecnologia.*
+*Um professor de Filosofia explorando o mundo da tecnologia.*
+*A Philosophy professor exploring the world of technology.*
