@@ -16,3 +16,9 @@ Atualmente, ele contém um script simples em Python que exibe uma mensagem de bo
 *Um professor de Filosofia explorando o mundo da tecnologia.*
 
 *A Philosophy professor exploring the world of technology.*
+
+## 🌐 Contato
+* [My LinkedIn](https://www.linkedin.com/in/jerah-fonseca-carvalho-319394398/)
+* [My Lattes curriculum](https://lattes.cnpq.br/6210618060080381)
+* [My ORCID](https://orcid.org/0009-0003-4678-3055)
+
