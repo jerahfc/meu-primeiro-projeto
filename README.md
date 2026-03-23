@@ -1,4 +1,4 @@
-# Meu Primeiro Projeto com Git 🚀
+# Olá, eu sou Jerah Fonseca Carvalho 🤝
 
 Este é o meu primeiro repositório criado enquanto aprendo programação e controle de versão!
 
