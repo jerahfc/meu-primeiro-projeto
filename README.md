@@ -1,4 +1,4 @@
-# 🐍 Meu Primeiro Projeto - Práticas em Python
+# 🐍 Repositório de estudos - Práticas em Python
 
 Bem-vindo ao meu repositório de estudos! Este espaço foi criado para centralizar todos os meus exercícios, testes e pequenos projetos desenvolvidos enquanto aprendo a linguagem **Python**.
 
