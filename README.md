@@ -11,9 +11,11 @@ O foco principal deste repositório é a **prática constante**. Aqui, aplicarei
 * **Laboratório de Testes:** Scripts rápidos para testar novas bibliotecas e funções.
 
 ## 🛠️ Tecnologias Utilizadas
-* **Linguagem:** Python 3.x
-* **Editor de Código:** Visual Studio Code (VS Code)
-* **Controle de Versão:** Git & GitHub
+* **Linguagem:** ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+* **Editor de Código:** ![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+
+* **Controle de Versão:** ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
 
 ## 📈 Evolução
 Este projeto será atualizado regularmente à medida que eu avançar nos estudos e enfrentar novos desafios de programação.
