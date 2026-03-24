@@ -1,26 +1,22 @@
-# Olá, eu sou Jerah Fonseca Carvalho 🤝
+# 🐍 Meu Primeiro Projeto - Práticas em Python
 
-Este é o meu primeiro repositório criado enquanto aprendo programação e controle de versão!
+Bem-vindo ao meu repositório de estudos! Este espaço foi criado para centralizar todos os meus exercícios, testes e pequenos projetos desenvolvidos enquanto aprendo a linguagem **Python**.
 
-This is my first repository, created while I'm learning programming and version control!
+## 🎯 Objetivo
+O foco principal deste repositório é a **prática constante**. Aqui, aplicarei conceitos fundamentais e avançados, transformando teoria em scripts funcionais.
 
-## 🛠️ Ferramentas
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
-![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+## 🚀 O que você encontrará aqui?
+* **Exercícios de Lógica:** Resolução de problemas e algoritmos básicos.
+* **Projetos Práticos:** Pequenas aplicações para automatização ou análise de dados.
+* **Laboratório de Testes:** Scripts rápidos para testar novas bibliotecas e funções.
 
-## 📝 O que este script faz?
-Atualmente... nada demais, ele contém somente um script simples em Python que exibe uma mensagem de boas-vindas no terminal.
+## 🛠️ Tecnologias Utilizadas
+* **Linguagem:** Python 3.x
+* **Editor de Código:** Visual Studio Code (VS Code)
+* **Controle de Versão:** Git & GitHub
+
+## 📈 Evolução
+Este projeto será atualizado regularmente à medida que eu avançar nos estudos e enfrentar novos desafios de programação.
 
 ---
-*Um professor de Filosofia explorando o mundo da tecnologia.*
-
-*A Philosophy professor exploring the world of technology.*
-
----
-
-## 🌐 Contato
-* [My LinkedIn](https://www.linkedin.com/in/jerah-fonseca-carvalho-319394398/)
-* [My Lattes curriculum](https://lattes.cnpq.br/6210618060080381)
-* [My ORCID](https://orcid.org/0009-0003-4678-3055)
+*Estudando e evoluindo um commit de cada vez.*
