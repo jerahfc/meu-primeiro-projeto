@@ -1,9 +1,18 @@
+import tkinter as tk
+from tkinter import messagebox
 import copy
 
 PIECES = {
     'wK': '♔', 'wQ': '♕', 'wR': '♖', 'wB': '♗', 'wN': '♘', 'wP': '♙',
     'bK': '♚', 'bQ': '♛', 'bR': '♜', 'bB': '♝', 'bN': '♞', 'bP': '♟',
 }
+
+LIGHT = '#F0D9B5'
+DARK  = '#B58863'
+SEL   = '#F6F669'
+LEGAL = '#CDD16E'
+LEGAL_DARK = '#AAAA44'
+CHECK = '#FF6B6B'
 
 def init_board():
     return [
@@ -19,30 +28,11 @@ def ptype(p): return p[1] if p else None
 def opp(c): return 'b' if c == 'w' else 'w'
 def in_bounds(r, c): return 0 <= r < 8 and 0 <= c < 8
 
-def print_board(board, flipped=False):
-    cols = 'abcdefgh'
-    print()
-    rows = range(7, -1, -1) if not flipped else range(8)
-    col_order = range(8) if not flipped else range(7, -1, -1)
-    print('    ' + '  '.join(cols[c] for c in col_order))
-    print('   +' + '--+' * 8)
-    for r in rows:
-        row_num = 8 - r
-        row_str = f' {row_num} |'
-        for c in col_order:
-            p = board[r][c]
-            row_str += (PIECES[p] if p else '·') + ' |'
-        print(row_str)
-        print('   +' + '--+' * 8)
-    print('    ' + '  '.join(cols[c] for c in col_order))
-    print()
-
 def piece_moves(board, r, c, ep, castle_rights, check_castle=True):
     p = board[r][c]
     if not p: return []
     col, t = color(p), ptype(p)
     moves = []
-
     def add(nr, nc):
         if in_bounds(nr, nc): moves.append((nr, nc))
 
@@ -59,12 +49,10 @@ def piece_moves(board, r, c, ep, castle_rights, check_castle=True):
                     add(r+d, c+dc)
                 if ep and (r+d, c+dc) == ep:
                     add(r+d, c+dc)
-
     elif t == 'N':
         for dr, dc in [(-2,-1),(-2,1),(-1,-2),(-1,2),(1,-2),(1,2),(2,-1),(2,1)]:
             if in_bounds(r+dr, c+dc) and color(board[r+dr][c+dc]) != col:
                 add(r+dr, c+dc)
-
     elif t == 'K':
         for dr, dc in [(-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)]:
             if in_bounds(r+dr, c+dc) and color(board[r+dr][c+dc]) != col:
@@ -78,11 +66,10 @@ def piece_moves(board, r, c, ep, castle_rights, check_castle=True):
             if cr['Q'] and not board[row][3] and not board[row][2] and not board[row][1]:
                 if not is_attacked(board,row,4,opp(col)) and not is_attacked(board,row,3,opp(col)) and not is_attacked(board,row,2,opp(col)):
                     add(row, 2)
-
     else:
-        if t == 'R':   dirs = [(0,1),(0,-1),(1,0),(-1,0)]
-        elif t == 'B': dirs = [(1,1),(1,-1),(-1,1),(-1,-1)]
-        else:           dirs = [(0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
+        if t == 'R':    dirs = [(0,1),(0,-1),(1,0),(-1,0)]
+        elif t == 'B':  dirs = [(1,1),(1,-1),(-1,1),(-1,-1)]
+        else:            dirs = [(0,1),(0,-1),(1,0),(-1,0),(1,1),(1,-1),(-1,1),(-1,-1)]
         for dr, dc in dirs:
             nr, nc = r+dr, c+dc
             while in_bounds(nr, nc):
@@ -90,7 +77,6 @@ def piece_moves(board, r, c, ep, castle_rights, check_castle=True):
                 add(nr, nc)
                 if board[nr][nc]: break
                 nr += dr; nc += dc
-
     return moves
 
 def is_attacked(board, r, c, by_color):
@@ -106,7 +92,6 @@ def find_king(board, col):
         for c in range(8):
             if board[r][c] == col + 'K':
                 return (r, c)
-    return None
 
 def apply_move(board, fr, fc, tr, tc, castle_rights, ep, promo=None):
     nb = copy.deepcopy(board)
@@ -114,7 +99,6 @@ def apply_move(board, fr, fc, tr, tc, castle_rights, ep, promo=None):
     p = nb[fr][fc]
     col, t = color(p), ptype(p)
     new_ep = None
-
     if t == 'P' and abs(tr - fr) == 2:
         new_ep = ((fr + tr) // 2, fc)
     if t == 'P' and ep and (tr, tc) == ep:
@@ -124,14 +108,11 @@ def apply_move(board, fr, fc, tr, tc, castle_rights, ep, promo=None):
         new_cr[col]['Q'] = False
         if abs(tc - fc) == 2:
             row = fr
-            if tc == 6:
-                nb[row][5] = nb[row][7]; nb[row][7] = None
-            else:
-                nb[row][3] = nb[row][0]; nb[row][0] = None
+            if tc == 6: nb[row][5] = nb[row][7]; nb[row][7] = None
+            else:       nb[row][3] = nb[row][0]; nb[row][0] = None
     if t == 'R':
         if fc == 7: new_cr[col]['K'] = False
         if fc == 0: new_cr[col]['Q'] = False
-
     nb[tr][tc] = col + promo if promo else p
     nb[fr][fc] = None
     return nb, new_ep, new_cr
@@ -162,80 +143,189 @@ def in_check(board, col):
     kr, kc = find_king(board, col)
     return is_attacked(board, kr, kc, opp(col))
 
-def parse_move(s):
-    s = s.strip().lower()
-    cols = 'abcdefgh'
-    if len(s) == 4 and s[0] in cols and s[1].isdigit() and s[2] in cols and s[3].isdigit():
-        fc = cols.index(s[0]); fr = 8 - int(s[1])
-        tc = cols.index(s[2]); tr = 8 - int(s[3])
-        return fr, fc, tr, tc
-    return None
 
-def ask_promotion():
-    opts = {'q': 'Q', 'r': 'R', 'b': 'B', 'n': 'N'}
-    while True:
-        choice = input('  Promover peão para (q=Rainha, r=Torre, b=Bispo, n=Cavalo): ').strip().lower()
-        if choice in opts:
-            return opts[choice]
-        print('  Opção inválida.')
+class ChessApp:
+    SQ = 72
 
-def main():
-    print('\n♟  XADREZ EM PYTHON  ♔')
-    print('Formato de jogada: e2e4, d7d5, etc.')
-    print('Comandos: "sair" para encerrar, "virar" para girar o tabuleiro\n')
+    def __init__(self, root):
+        self.root = root
+        self.root.title('Xadrez')
+        self.root.resizable(False, False)
+        self.flipped = False
+        self._build_ui()
+        self.new_game()
 
-    board = init_board()
-    turn = 'w'
-    ep = None
-    castle_rights = {'w': {'K': True, 'Q': True}, 'b': {'K': True, 'Q': True}}
-    flipped = False
-    names = {'w': 'Brancas', 'b': 'Pretas'}
+    def _build_ui(self):
+        top = tk.Frame(self.root, bg='#2C2C2A', pady=6)
+        top.pack(fill='x')
+        self.status_var = tk.StringVar(value='')
+        tk.Label(top, textvariable=self.status_var, bg='#2C2C2A', fg='#F0D9B5',
+                 font=('Helvetica', 13)).pack()
 
-    while True:
-        print_board(board, flipped)
+        board_frame = tk.Frame(self.root, bg='#2C2C2A')
+        board_frame.pack(padx=12, pady=(4, 4))
 
-        moves = all_legal(board, turn, ep, castle_rights)
-        if not moves:
-            if in_check(board, turn):
-                print(f'  ♛ Xeque-mate! {names[opp(turn)]} vencem!')
-            else:
-                print('  ½ Empate por afogamento!')
-            break
+        self.canvas = tk.Canvas(board_frame, width=self.SQ*8, height=self.SQ*8,
+                                highlightthickness=0, bd=0)
+        self.canvas.pack()
+        self.canvas.bind('<Button-1>', self.on_click)
 
-        if in_check(board, turn):
-            print(f'  ⚠  Xeque! Turno das {names[turn]}.')
+        btn_frame = tk.Frame(self.root, bg='#2C2C2A', pady=6)
+        btn_frame.pack(fill='x')
+        style = dict(bg='#3C3C3A', fg='#F0D9B5', activebackground='#555',
+                     activeforeground='white', relief='flat', padx=14, pady=5,
+                     font=('Helvetica', 11), cursor='hand2')
+        tk.Button(btn_frame, text='Nova partida', command=self.new_game, **style).pack(side='left', padx=(12,4))
+        tk.Button(btn_frame, text='Virar tabuleiro', command=self.flip, **style).pack(side='left', padx=4)
+
+    def new_game(self):
+        self.board = init_board()
+        self.turn = 'w'
+        self.ep = None
+        self.castle_rights = {'w': {'K': True, 'Q': True}, 'b': {'K': True, 'Q': True}}
+        self.selected = None
+        self.legal = []
+        self.game_over = False
+        self.status_var.set('Turno das Brancas')
+        self.draw()
+
+    def flip(self):
+        self.flipped = not self.flipped
+        self.draw()
+
+    def sq_to_rc(self, sq_x, sq_y):
+        c = sq_x if not self.flipped else 7 - sq_x
+        r = sq_y if not self.flipped else 7 - sq_y
+        return r, c
+
+    def rc_to_xy(self, r, c):
+        x = c if not self.flipped else 7 - c
+        y = r if not self.flipped else 7 - r
+        return x, y
+
+    def draw(self):
+        S = self.SQ
+        c = self.canvas
+        c.delete('all')
+        names = 'abcdefgh'
+        check_pos = find_king(self.board, self.turn) if in_check(self.board, self.turn) else None
+
+        for row in range(8):
+            for col in range(8):
+                r, brd_c = self.sq_to_rc(col, row)
+                x1, y1 = col * S, row * S
+                x2, y2 = x1 + S, y1 + S
+
+                is_light = (r + brd_c) % 2 == 0
+                base = LIGHT if is_light else DARK
+                fill = base
+
+                if self.selected and self.selected == (r, brd_c):
+                    fill = SEL
+                elif (r, brd_c) in self.legal:
+                    fill = LEGAL if is_light else LEGAL_DARK
+                elif check_pos and (r, brd_c) == check_pos:
+                    fill = CHECK
+
+                c.create_rectangle(x1, y1, x2, y2, fill=fill, outline='')
+
+                # dot for legal empty squares
+                if (r, brd_c) in self.legal and not self.board[r][brd_c]:
+                    cx, cy = x1 + S//2, y1 + S//2
+                    dot_color = '#888844' if is_light else '#666622'
+                    c.create_oval(cx-8, cy-8, cx+8, cy+8, fill=dot_color, outline='')
+
+                p = self.board[r][brd_c]
+                if p:
+                    piece_color = '#FFFFF0' if p[0] == 'w' else '#1A1A1A'
+                    c.create_text(x1+S//2, y1+S//2, text=PIECES[p],
+                                  font=('Segoe UI Emoji', int(S*0.55)), fill=piece_color)
+
+        # coordinates
+        for i in range(8):
+            xi, yi = self.rc_to_xy(0, i)
+            c.create_text(xi*S + 4, 8*S - 6, text=names[i],
+                          font=('Helvetica', 9), fill=DARK if i%2==0 else LIGHT, anchor='w')
+        for i in range(8):
+            xi, yi = self.rc_to_xy(i, 0)
+            num = str(8 - i) if not self.flipped else str(i + 1)
+            c.create_text(2, yi*S + 6, text=num,
+                          font=('Helvetica', 9), fill=LIGHT if i%2==0 else DARK, anchor='nw')
+
+    def on_click(self, event):
+        if self.game_over: return
+        S = self.SQ
+        col_x = event.x // S
+        row_y = event.y // S
+        if not (0 <= col_x < 8 and 0 <= row_y < 8): return
+        r, c = self.sq_to_rc(col_x, row_y)
+
+        if self.selected:
+            if (r, c) in self.legal:
+                self.do_move(self.selected[0], self.selected[1], r, c)
+                return
+        if self.board[r][c] and color(self.board[r][c]) == self.turn:
+            self.selected = (r, c)
+            self.legal = legal_moves_for(self.board, r, c, self.ep, self.castle_rights)
         else:
-            print(f'  Turno das {names[turn]}.')
+            self.selected = None
+            self.legal = []
+        self.draw()
 
-        cmd = input('  Jogada: ').strip().lower()
+    def do_move(self, fr, fc, tr, tc, promo=None):
+        p = self.board[fr][fc]
+        col = color(p)
+        is_promo_row = (col == 'w' and tr == 0) or (col == 'b' and tr == 7)
+        if ptype(p) == 'P' and is_promo_row and not promo:
+            self.ask_promotion(col, lambda ch: self.do_move(fr, fc, tr, tc, ch))
+            return
 
-        if cmd == 'sair':
-            print('  Até a próxima!')
-            break
-        if cmd == 'virar':
-            flipped = not flipped
-            continue
+        self.board, self.ep, self.castle_rights = apply_move(
+            self.board, fr, fc, tr, tc, self.castle_rights, self.ep, promo)
+        self.turn = opp(self.turn)
+        self.selected = None
+        self.legal = []
 
-        parsed = parse_move(cmd)
-        if not parsed:
-            print('  Formato inválido. Use ex: e2e4\n')
-            continue
+        avail = all_legal(self.board, self.turn, self.ep, self.castle_rights)
+        names = {'w': 'Brancas', 'b': 'Pretas'}
+        self.draw()
 
-        fr, fc, tr, tc = parsed
-        if color(board[fr][fc]) != turn:
-            print('  Essa peça não é sua.\n')
-            continue
-        if (tr, tc) not in legal_moves_for(board, fr, fc, ep, castle_rights):
-            print('  Movimento ilegal.\n')
-            continue
+        if not avail:
+            self.game_over = True
+            if in_check(self.board, self.turn):
+                winner = names[opp(self.turn)]
+                self.status_var.set(f'Xeque-mate! {winner} vencem!')
+                messagebox.showinfo('Fim de jogo', f'Xeque-mate!\n{winner} vencem!')
+            else:
+                self.status_var.set('Empate por afogamento!')
+                messagebox.showinfo('Fim de jogo', 'Empate por afogamento!')
+        elif in_check(self.board, self.turn):
+            self.status_var.set(f'Xeque! Turno das {names[self.turn]}')
+        else:
+            self.status_var.set(f'Turno das {names[self.turn]}')
 
-        p = board[fr][fc]
-        promo = None
-        if ptype(p) == 'P' and (tr == 0 or tr == 7):
-            promo = ask_promotion()
+    def ask_promotion(self, col, callback):
+        win = tk.Toplevel(self.root)
+        win.title('Promoção do peão')
+        win.resizable(False, False)
+        win.grab_set()
+        tk.Label(win, text='Escolha a peça:', font=('Helvetica', 12), pady=8).pack()
+        frame = tk.Frame(win)
+        frame.pack(padx=16, pady=(0, 12))
+        for t in ['Q', 'R', 'B', 'N']:
+            sym = PIECES[col + t]
+            def make_cb(choice=t):
+                win.destroy()
+                callback(choice)
+            tk.Button(frame, text=sym, font=('Segoe UI Emoji', 32),
+                      width=2, relief='flat', bg='#F0D9B5',
+                      activebackground='#CDD16E', cursor='hand2',
+                      command=make_cb).pack(side='left', padx=4)
+        win.protocol('WM_DELETE_WINDOW', lambda: None)
+        self.root.wait_window(win)
 
-        board, ep, castle_rights = apply_move(board, fr, fc, tr, tc, castle_rights, ep, promo)
-        turn = opp(turn)
 
 if __name__ == '__main__':
-    main()
+    root = tk.Tk()
+    app = ChessApp(root)
+    root.mainloop()
