@@ -7,3 +7,4 @@ str         # Valores Varactere ou String. ---> Ex: "Olá", "7.5", " "
 
 #print("A soma vale", S)
 #print("A soma vale, {}".format(S))
+
