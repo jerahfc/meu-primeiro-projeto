@@ -9,7 +9,7 @@ print("A soma é,", s)
 
 # Jeito correto de fazer o Desafio 003:
 
-n1 = input("Digite o primeiro número ")
-n2 = input("Digite o segundo número ")
+n1 = int(input("Digite o primeiro número "))
+n2 = int(input("Digite o segundo número "))
 s = n1 + n2
 print(f"A soma de {n1} e {n2} é igual a {s}")
