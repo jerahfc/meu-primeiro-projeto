@@ -3,7 +3,7 @@
 nome = input("Qual é o seu nome? " )
 print("É um prazer te conhecer, ", nome,)
 
-#-------------------------Outra forma de fazer---------------------------------------------
+#-------------------------Outra forma de fazer (jeito antigo)---------------------------------------------
 
 nome = input("Qual é o seu nome? " )
 print("É um prazer te conhecer, {}!".format(nome))
