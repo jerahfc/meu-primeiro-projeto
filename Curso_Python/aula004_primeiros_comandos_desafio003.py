@@ -11,5 +11,5 @@ print("A soma é,", s)
 
 n1 = input("Digite o primeiro número ")
 n2 = input("Digite o segundo número ")
-s = número01 + número02
+s = n1 + n2
 print(f"A soma de {n1} e {n2} é igual a {s}")
