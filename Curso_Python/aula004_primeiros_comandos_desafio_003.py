@@ -1,3 +1,4 @@
+#------------DESAFIO_003 PARTE LIMITADA-----------------------------------------------------------------------
 # Crie um script Python que leia dois números e tente mostrar a soma entre eles.
 
 número01 = input("Digite o primeiro número ")
@@ -8,6 +9,7 @@ print("A soma é,", s)
 # Nesse caso, o sinal de "+" não está cumprindo a função adição, e sim de concatenação. Ele une os dois números sem somar, isso acontece no python porque não usamos os tipos primitivos.
 
 # Jeito correto de fazer o Desafio 003:
+#------------DESAFIO_003 PARTE CORRETA COM TIPOS PRIMITIVOS DA AULA 006-----------------------------------------------------------------------
 
 n1 = int(input("Digite o primeiro número "))
 n2 = int(input("Digite o segundo número "))

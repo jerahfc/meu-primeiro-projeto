@@ -1,4 +1,4 @@
-#Tipos primitivos mais básicos:
+# Tipos primitivos mais básicos:
 
 int         # Números Inteiros. ---> Ex: 7, -4, 0, 9875
 float       # Números Reais ou números de ponto flutuante. ---> Ex: 4.5, 0.076, -15.223, 7.0
@@ -13,7 +13,7 @@ n2 = int(input("digite um valor: "))
 s = n1 + n2
 print("A soma vale", s)
 
-#------------DESAFIO RÁPIDO------------------------------------------------------
+#------------DESAFIO RÁPIDO SEM VALER NADA------------------------------------------------------
 
 n1 = int(input("digite um valor: "))
 n2 = int(input("digite outro valor: "))
@@ -24,4 +24,7 @@ s = n1 + n2
 
 print(f"A soma entre {n1} e {n2} vale {s}")
 
-#------------DESAFIO_004------------------------------------------------------
+#------------DESAFIO_004-----------------------------------------------------------------------
+
+# Faça um programa que leia algo pelo teclado e mostre na tela o seu tipo primitivo e todas as informações possíveis sobre ele?
+
