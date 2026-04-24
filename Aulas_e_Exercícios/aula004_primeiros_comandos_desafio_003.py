@@ -15,3 +15,5 @@ n1 = int(input("Digite o primeiro número "))
 n2 = int(input("Digite o segundo número "))
 s = n1 + n2
 print(f"A soma de {n1} e {n2} é igual a {s}")
+
+# O operador f antes da string indica que é uma f-string, permitindo a inclusão de expressões dentro das chaves {} para formatação e exibição dos resultados.

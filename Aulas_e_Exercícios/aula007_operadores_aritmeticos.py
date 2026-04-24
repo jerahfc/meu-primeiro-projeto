@@ -54,3 +54,19 @@ print(x == y)  # False
 # Parênteses sempre podem mudar a ordem:
 # exemplo: (2 + 3) * 4
 
+# =============================================================================================
+
+n1 = int(input("Digite um número: "))
+n2 = int(input("Digite outro número: "))
+s = n1 + n2
+m = n1 * n2
+d = n1 / n2
+di = n1 // n2
+e = n1 ** n2
+print(f"A soma é: {s}, \n o produto é {m}, \n a divisão é {d:.3f}", end=" >>")
+print(f"A divisão inteira é {di} e a potência é {e}")
+
+# O operador end="" é usado para evitar a quebra de linha automática no final da impressão, permitindo que a próxima impressão continue na mesma linha.
+# O operador :.3f é usado para formatar a saída da divisão, limitando o número de casas decimais a 3.
+# O operador \n é usado para inserir uma quebra de linha, permitindo que cada resultado seja impresso em uma nova linha.
+# O operador f antes da string indica que é uma f-string, permitindo a inclusão de expressões dentro das chaves {} para formatação e exibição dos resultados.
